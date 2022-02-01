@@ -1,0 +1,99 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fingen</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+
+
+    <style>
+        th
+        {
+          background: Black;
+          height:30px;
+            color:white
+        }
+        table,td
+        {
+          border:2px solid lightgray;
+        }
+        table
+        {
+          width:30%;
+          color:black;
+        }
+      </style>
+</head>
+<body>
+    <div class="container">
+        <div class="text-center mt-5">
+            <h1><strong>Results</strong></h1>
+        </div>
+        <div>
+        <table class="mx-auto mt-2">
+              <tr>
+                <th>Category</th>
+                <th>Percentage</th>
+              </tr>
+              <tr>
+                <td>Men</td>
+                <td>{{ data.men }}</td>
+              </tr>
+              <tr>
+                <td>Women</td>
+                <td>{{ data.women }}</td>
+              </tr>
+              <tr>
+                <td>Men Occupation</td>
+                <td>{{ data.men_occ }}</td>
+              </tr>
+              <tr>
+                <td>Women Occupation</td>
+                <td>{{ data.women_occ }}</td>
+              </tr>
+            </table>
+        </div>
+
+        <div class="text-center mt-5">
+            <h3><strong>Occupation Percentage Pie Chart</strong></h3>
+            <div style="width: 400px;height: 400px" class="mx-auto mt-5">
+              <canvas id="pieChart"></canvas>
+            </div>
+        </div>
+        <div class="text-center mt-3">
+            <img src="{% static 'word_cloud.png' %}" alt="Responsive image">
+        </div>
+    </div>
+</body>
+<script>
+    var ctxP = document.getElementById("pieChart").getContext('2d');
+    var myPieChart = new Chart(ctxP, {
+      type: 'pie',
+      data : {
+          labels: [
+              'Women Occupation',
+              'Men Occupation',
+          ],
+          datasets: [{
+              label: 'My First Dataset',
+              data: [{{ data.women_occ }}, {{ data.men_occ }}],
+              backgroundColor: [
+                  'rgb(255, 99, 132)',
+                  'rgb(54, 162, 235)',
+              ],
+              hoverOffset: 4
+          }]
+      },
+      options: {
+        responsive: true
+      }
+    });
+</script>
+</html>

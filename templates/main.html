@@ -1,0 +1,303 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Reading Mirrors</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{% static 'assets/img/favicon.png' %}" rel="icon">
+  <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Dosis:300,400,500,,600,700,700i|Lato:300,300i,400,400i,700,700i" rel="stylesheet">
+
+  <!-- CSS Files -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+
+  <!-- ChartsJs Script -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+  <!-- Main CSS File -->
+  <link href="{%  static 'assets/css/style.css'%}" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top" style="background: #DFC00E">
+    <div class="container d-flex align-items-center justify-content-between" >
+
+{#      <a href="#" class="logo"><img src="{% static 'assets/img/logo.png' %}" alt=""></a>#}
+
+        <h1 class="logo" style="font-size: 250%"><a href=""><i class="bi bi-book px-2"></i><b><span class="text-light">Reading</span> Mirrors <sub>By Ilina Singh</sub></b></a></h1>
+
+      <nav id="navbar" class="navbar" >
+        <ul>
+          <li><a class="nav-link scrollto active text-dark" href="#hero">Home</a></li>
+          <li><a class="nav-link scrollto text-dark" href="#services">Services</a></li>
+          <li><a class="nav-link scrollto text-dark" href="#Upload">Upload</a></li>
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header><!-- End Header -->
+
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="d-flex align-items-center">
+    <div class="container">
+      <div class="row">
+{#        <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">#}
+          <div class="col-12">
+          <h3>You can change the story. Nip gender bias in the bud.</h3>
+          <h2>
+            Young minds are shaped by the stories they read at school and at home. Gender stereotypes are passed on to children when they read books that have an unbalanced portrayal of women and their roles.
+            Curious? Find out now how gender biased your book is.            
+          </h2>
+        </div>
+{#        <div class="col-lg-6 order-1 order-lg-2 hero-img">#}
+{#          <img src="{% static 'assets/img/hero-img-1.png' %}" class="img-fluid" alt="">#}
+{#        </div>#}
+      </div>
+    </div>
+
+  </section><!-- End Hero -->
+
+  <main id="main">
+
+
+    <!-- ======= Services Section ======= -->
+    <section id="services" class="services section-bg">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>How do we do it?</h2>
+          <p>We use the power of Machine Learning to detect bias by analyzing every sentence in the story. Here are the two questions we ask</p>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-6 col-md-6">
+            <div class="icon-box text-center rounded border border-dark" style="background: #DFC00E">
+              <div class="icon"><i class="bi bi-cash-stack" style="color: black"></i></div>
+              <p class="description">How often are women represented in stories?</p>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6">
+            <div class="icon-box text-center rounded border border-dark" style="background: #DFC00E">
+              <div class="icon"><i class="bi bi-calendar4-week" style="color: black"></i></div>
+              <p class="description">Do the women have an occupation?</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End Services Section -->
+
+    <!-- ======= Upload Section ======= -->
+    <section id="Upload" class="Upload">
+      <div class="container">
+        <div class="section-title">
+          <h2>Upload Your PDF</h2>
+            <div class="card text-center">
+              <div class="card-header">
+              </div>
+              <div class="card-body">
+                <p class="card-text">Upload a .PDF of your book and scroll down for results.</p>
+                <form id="uploadForm" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <a style="cursor: pointer" onclick="uploadFile()"><img height="100px" width="100px" src="{% static 'assets/img/upload.png' %}"></a>
+                    <input type="file" style="display: none" required class="btn btn-dark" id="myFile" name="myfile"><br><br>
+                    {% if error %}
+                        <div id="errormsg">
+                            <div class="mb-2 alert alert-danger" role="alert">
+                              {{ error }}
+                            </div>
+                        </div>
+
+                    {% endif %}
+                      <div id="formLoader" style="display: none;">
+                          <div  class="spinner-border mx-auto mb-2"  style=" height: 100px;width: 100px " role="status">
+                              <span class="sr-only">Loading...</span>
+                          </div>
+                          
+                          <h3 class="text-center">This might take several minutes...</h3>
+                      </div>
+                    <input class="btn px-5 py-2 font-weight-bold" style="background:#DFC00E" onclick="loadingShow()" type="submit">
+                </form>
+
+              </div>
+                <div class="card-footer text-muted">
+              </div>
+            </div>
+        </div>
+      </div>
+    </section><!-- End Upload Section -->
+  <!-- ======= Results Section ======= -->
+  {% if data %}
+    <section id="Result" class="Result">
+      <div class="container">
+        <div class="section-title">
+          <h2>What are my results?</h2>
+        </div>
+        <div style="border: 1px solid black">
+
+        <div class="text-center mt-5">
+            <div class="mx-auto mt-5">
+                <div class="row">
+                    <div class="col-6">
+                        <h1><b class="px-4" style="font-size: 70px;background: #DFC00E;">1</b></h1>
+                        <h3><strong>Representation</strong></h3>
+                        <div>
+                            <canvas id="pieChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <h1 ><b class="px-3" style="font-size: 70px;background: #DFC00E;">2</b></h1>
+                        <h3><strong>Occupation</strong></h3>
+                        <div>
+                            <canvas id="pieChartOcc"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-5" style="background: white">
+            <hr>
+            <h1><b class="px-3" style="font-size: 70px;background: #DFC00E;">3</b></h1>
+            <img src="{% static 'word_cloud.png' %}" alt="Responsive image">
+        </div>
+            <div class="text-center">
+                <h1><b>Our Verdict</b></h1>
+                <div style="width: 50%" class="mx-auto mb-4">
+                    <div class="icon-box text-center rounded border border-dark mx-auto" style="background: #DFC00E">
+                        {% if data.is_balanced == True %}
+                            <h4 class="title p-4"><b>Congratulations, your document has {{ data.women }}%  representation of women and {{ data.women_occ }}% women associated with a career. It seems gender balanced.</b></h4>
+                        {% else %}
+                            <h4 class="title p-4"><b>Oops, your document does not seem gender balanced. It has only {{ data.women }}% representation of women and {{ data.women_occ }}% women associated with a career.</b></h4>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        <hr>
+            <div class="text-center" style="cursor: pointer"  id="shareExternal">
+                <a><img src="{% static 'assets/img/share.png' %}" width="100px" height="100px" style="vertical-align:middle;"></a>
+                <h1><b>Share Results Externally</b></h1>
+            </div>
+        </div>
+      </div>
+
+      </div>
+    </section><!-- End Results Section -->
+  {% endif %}
+  </main><!-- End #main -->
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="row">
+          <div class="footer-contact text-center mx-auto" >
+            <h3>Reading Mirrors</h3>
+            &copy; Copyright <strong><span>Reading Mirrors</span></strong>. All Rights Reserved
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+  <a href="#" onmouseover="this.style.color='black'" onMouseOut="this.style.color='yellow'" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'assets/js/main.js' %}"></script>
+
+</body>
+
+<script>
+    document.getElementById("shareExternal").addEventListener("click", async () => {
+    if (navigator.share) {
+        navigator.share({
+            title: 'Result from Reading Mirrors',
+            text: 'Here are results of your uploaded PDF document:\n Women Representation: {{ data.women }}% \n Men Representation: {{ data.men }}%\n Women Occupation: {{ data.women_occ }}%\n Men Representation: {{ data.men_occ }}%\n ' +
+                '\n\nDid you know school text books could be gender biased? Go to www.readingmirrors.com now to to find out more.',
+            url: 'https://www.readingmirrors.com',
+          })
+          .then(() => console.log('Successful share'))
+          .catch((error) => console.log('Error sharing', error));
+      } else {
+        console.log('Share not supported on this browser, do it the old way.');
+      }
+    });
+
+    var ctxP = document.getElementById("pieChartOcc").getContext('2d');
+    var myPieChart = new Chart(ctxP, {
+      type: 'pie',
+      data : {
+          labels: [
+              'Women Occupation',
+              'Men Occupation',
+          ],
+          datasets: [{
+              label: 'Men/Women Occupation',
+              data: [{{ data.women_occ }}, {{ data.men_occ }}],
+              backgroundColor: [
+                  '#DFC00E',
+                  'black',
+              ],
+              hoverOffset: 4
+          }]
+      },
+      options: {
+        responsive: true
+      }
+    });
+    var ctxP = document.getElementById("pieChart").getContext('2d');
+    var myPieChart = new Chart(ctxP, {
+      type: 'pie',
+      data : {
+          labels: [
+              'Women',
+              'Men',
+          ],
+          datasets: [{
+              label: 'Men/Women',
+              data: [{{ data.women }}, {{ data.men }}],
+              backgroundColor: [
+                  '#DFC00E',
+                  'black',
+              ],
+              hoverOffset: 4
+          }]
+      },
+      options: {
+        responsive: true
+      }
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        {% if data %}
+            document.getElementById("Result").scrollIntoView();
+        {% elif error %}
+            document.getElementById("Upload").scrollIntoView();
+        {% endif %}
+
+    });
+
+    function loadingShow() {
+        if(document.getElementById("myFile").value != ""){
+            document.getElementById("formLoader").style.display = "block";
+            document.getElementById("errormsg").style.display = "none";
+        }
+    }
+    function uploadFile(){
+        document.getElementById("myFile").click();
+    }
+</script>
+
+</html>
